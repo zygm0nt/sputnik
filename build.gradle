@@ -71,6 +71,9 @@ dependencies {
     }
     compile 'org.codehaus.groovy:groovy:2.3.4'
 
+    // github connector
+    compile 'com.jcabi:jcabi-github:0.15.2'
+
     // Test dependencies
     testCompile 'junit:junit:4.11'
     testCompile 'org.mockito:mockito-all:1.9.5'
