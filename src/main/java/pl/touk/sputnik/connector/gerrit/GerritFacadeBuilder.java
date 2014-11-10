@@ -20,10 +20,10 @@ public class GerritFacadeBuilder {
     @NotNull
     public GerritFacade build() {
         ConnectorDetails connectorDetails = new ConnectorDetails();
-        GerritPatchset gerritPatchset = buildGerritPatchset();
+            GerritPatchset gerritPatchset = buildGerritPatchset();
 
         HttpHost httpHost = httpHelper.buildHttpHost(connectorDetails);
-        HttpClientContext httpClientContext = httpHelper.buildClientContext(httpHost, new DigestScheme());
+                HttpClientContext httpClientContext = httpHelper.buildClientContext(httpHost, new DigestScheme());
         CloseableHttpClient closeableHttpClient = httpHelper.buildClient(httpHost, connectorDetails);
 
         return new GerritFacade(new GerritConnector(new HttpConnector(closeableHttpClient, httpClientContext, connectorDetails.getPath()), gerritPatchset));
@@ -36,6 +36,12 @@ public class GerritFacadeBuilder {
 
         notBlank(changeId, "You must provide non blank Gerrit change Id");
         notBlank(revisionId, "You must provide non blank Gerrit revision Id");
+
+        int x = 5;
+
+        for (int j = 0; j < 100; j++) {
+            System.out.println("asd");
+        }
 
         return new GerritPatchset(changeId, revisionId);
     }
