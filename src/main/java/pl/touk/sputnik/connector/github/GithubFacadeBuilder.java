@@ -5,21 +5,13 @@ import com.jcabi.github.Github;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RtGithub;
 import com.jcabi.http.wire.RetryWire;
-import org.apache.http.HttpHost;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jetbrains.annotations.NotNull;
 import pl.touk.sputnik.configuration.CliOption;
 import pl.touk.sputnik.configuration.ConfigurationHolder;
 import pl.touk.sputnik.configuration.GeneralOption;
-import pl.touk.sputnik.connector.ConnectorDetails;
-import pl.touk.sputnik.connector.http.HttpConnector;
-import pl.touk.sputnik.connector.http.HttpHelper;
-import pl.touk.sputnik.connector.stash.StashConnector;
-import pl.touk.sputnik.connector.stash.StashFacade;
-import pl.touk.sputnik.connector.stash.StashPatchset;
 
+import static org.apache.commons.lang3.Validate.isTrue;
 import static org.apache.commons.lang3.Validate.notBlank;
 
 public class GithubFacadeBuilder {
@@ -37,7 +29,7 @@ public class GithubFacadeBuilder {
         );
 
         Repo repo = github.repos().get(new Coordinates.Simple(githubPatchset.projectPath));
-        return new GithubFacade(new GithubConnector(repo, githubPatchset));
+        return new GithubFacade(repo, githubPatchset);
     }
 
     @NotNull
@@ -47,9 +39,10 @@ public class GithubFacadeBuilder {
         String projectKey = ConfigurationHolder.instance().getProperty(GeneralOption.PROJECT_KEY);
 
         notBlank(pullRequestId, "You must provide non blank Github pull request id");
+        isTrue(NumberUtils.isNumber(pullRequestId), "Integer value as pull request id required");
         notBlank(repositorySlug, "You must provide non blank Github repository slug");
         notBlank(projectKey, "You must provide non blank Github project key");
 
-        return new GithubPatchset(pullRequestId, repositorySlug, projectKey);
+        return new GithubPatchset(Integer.parseInt(pullRequestId), String.format("%s/%s", repositorySlug, projectKey));
     }
 }
