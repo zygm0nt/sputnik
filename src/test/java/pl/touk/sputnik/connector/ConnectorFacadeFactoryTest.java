@@ -35,7 +35,7 @@ public class ConnectorFacadeFactoryTest {
     public void shouldThrowIfKeyIsUnknown() {
         catchException(connectorFacadeFactory).build("unknown");
 
-        assertThat(caughtException()).isInstanceOf(IllegalArgumentException.class)
+        assertThat((Exception) caughtException()).isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Connector unknown is not supported");
     }
 
