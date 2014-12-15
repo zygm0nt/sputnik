@@ -23,8 +23,6 @@ public class GithubFacadeTest {
 
         Repo repo = github.repos().get(new Coordinates.Simple("zygm0nt/sputnik"));
         Pull pull = repo.pulls().get(2);
-        for (Commit commit : pull.commits()) {
-        }
         try {
             PullComments comments = pull.comments();
             for (PullComment c : comments.iterate(Maps.<String, String>newHashMap())) {
@@ -35,24 +33,22 @@ public class GithubFacadeTest {
         }
 
         try {
-            pull.comments().post("This review generated 2 comments",
-                    "faa1c3e",
-                    "src/main/java/pl/touk/sputnik/review/Engine.java", 30);
+            pull.comments().post("Wrong indentation",
+                    "460c8ee5124f5b3cea5d175c20222c7e0a6b4e79",
+                    "src/main/java/pl/touk/sputnik/connector/gerrit/GerritFacadeBuilder.java", 5);
         } catch (IOException e) {
             log.error("Error adding comment", e);
         }
     }
-/*
-    @Test
-    public void shouldAddCommentDifferentLib() throws Exception {
-        GitHub github = GitHub.connect("zygm0nt", "2ef119ad4ccb1fc9e49571c4c9a8f72e62fcca72");
-        GHRepository repo = github.getRepository("zygm0nt/sputnik");
-        GHPullRequest pullRequest = repo.getPullRequest(2);
-        PagedIterable<GHPullRequestCommitDetail> iter = pullRequest.listCommits();
 
-        for (GHPullRequestCommitDetail commitDetail : iter) {
-            commitDetail.getCommit();
-        }
-    }*/
+    /*
+    fetch commits for a pull request
+    fetch each commits change files
+    check which file has most recent change for line X (iterate for all lines)
+    create requests to github with correct commit_id, position, file
+
+
+    https://api.github.com/repos/zygm0nt/sputnik/commits/410266112b6d734a76387a5751058d2f8bdd5511
+     */
 
 }
