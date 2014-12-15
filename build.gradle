@@ -16,6 +16,9 @@ mainClassName = 'pl.touk.sputnik.Main'
 repositories {
     mavenLocal()
     mavenCentral()
+    maven {
+        url "https://repo.eclipse.org/content/groups/releases/"
+    }
 }
 
 //noinspection GroovyAssignabilityCheck
@@ -73,7 +76,8 @@ dependencies {
     compile 'org.codehaus.groovy:groovy:2.3.4'
 
     // github connector
-    compile 'com.jcabi:jcabi-github:1.0-SNAPSHOT'
+    compile 'com.jcabi:jcabi-github:0.18.1'
+    compile 'org.eclipse.jgit:org.eclipse.jgit:3.6.1.201501031845-r'
 
     // Test dependencies
     testCompile 'junit:junit:4.11'
